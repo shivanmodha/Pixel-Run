@@ -73,7 +73,6 @@ public class Maze extends Object3D
                 {
                     int heightOffset = x * j;
                     idc.add(new Index(heightOffset + i, heightOffset + i + 1, heightOffset + x + i + 1, heightOffset + x + i));
-                    //col.add(Color.White);
                     if (check.equals("o"))
                     {
                         col.add(Color.White);

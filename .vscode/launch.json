@@ -16,7 +16,7 @@
             "name": "Debug (Attach)",
             "request": "attach",
             "hostName": "localhost",
-            "port": 4000
+            "port": 10
         }
     ]
 }

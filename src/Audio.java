@@ -60,6 +60,7 @@ public class Audio
     public void Stop()
     {
         audioFile.stop();
+        audioFile.setFramePosition(0);
         play = false;
     }
     public boolean IsPlaying()
