@@ -9,6 +9,7 @@ import studios.vanish.engine.Light;
 import studios.vanish.engine.Object3D;
 import studios.vanish.engine.Point;
 import studios.vanish.engine.Size;
+import studios.vanish.engine.Sphere;
 import studios.vanish.engine.Vertex;
 import studios.vanish.engine.Window;
 
@@ -42,6 +43,7 @@ public class Program
     static int                              HUMAN_DETAIL_FACE = 20;
     static int                              HUMAN_DETAIL_BODY = 3;
     static int                              HUMAN_DETAIL_EYE = 5;
+    static int                              CLIP_DISTANCE = 1000;
     // Color
     static Color                            COLOR_GUN_STRIP = Color.DarkSlateGray;
     static Color                            COLOR_GUN_FORM = Color.Black;
@@ -164,7 +166,10 @@ public class Program
                 introObjects[0].Location = new Vertex(0, 0, 2);
 
                 introObjects[1] = new Object3D(gunVertices, gunIndices, gunColors);
-                //introObjects[2] = new Object3D(gunVertices, gunIndices, gunColors);
+                introObjects[1].Location = new Vertex(0, 0, -1000);
+                
+                introObjects[2] = new Sphere(50, 50, true, Color.Blue);
+                introObjects[2].Location = new Vertex(0, 0, -1000);
 
                 introLights = new Light[1];
                 introLights[0] = new Light(new Vertex(0, 0, 0), new Point(0.5, 0.5), Color.Black);
@@ -189,13 +194,13 @@ public class Program
                 introObjects[1].Rotation.Z += 0.1;
                 introObjects[1].Location.Z -= 0.001;
             }
-            else if (introTime < 8500)
+            else if (introTime < 7700)
             {
 
             }
-            else if (introTime == 8500)
+            else if (introTime == 7700)
             {
-                
+                introObjects[2].Location = new Vertex(0, 0, 5);
             }
         }
         else
@@ -233,9 +238,13 @@ public class Program
                 Graphics.DrawString("A Vanish Studios Production", new Color(100, 100, 100, alpha), new Point((wnd.Size.Width / 2) - (Graphics.GetTextSize("A Vanish Studios Production", FONT_TITLE_SMALL).Width / 2), wnd.Size.Height - 200), FONT_TITLE_SMALL);
                 Graphics.DrawString("" + alpha, Color.White, new Point(0, 20), FONT_STAT);
             }
-            else if (introTime < 8500)
+            else if (introTime < 7700)
             {
                 Graphics.DrawString("A Vanish Studios Production", new Color(100, 100, 100, 255), new Point((wnd.Size.Width / 2) - (Graphics.GetTextSize("A Vanish Studios Production", FONT_TITLE_SMALL).Width / 2), wnd.Size.Height - 200), FONT_TITLE_SMALL);
+            }
+            else
+            {
+                Graphics.DrawString("Shivan Modha", new Color(100, 100, 100, 255), new Point((wnd.Size.Width / 2) - (Graphics.GetTextSize("A Vanish Studios Production", FONT_TITLE_SMALL).Width / 2), wnd.Size.Height - 200), FONT_TITLE_SMALL);
             }
             Graphics.DrawString("" + introTime, Color.White, new Point(0, 0), FONT_STAT);
         }
