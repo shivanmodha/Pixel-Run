@@ -20,6 +20,7 @@ public class Maze extends Object3D
     Point Start;
     Point End;
     ArrayList<Rectangle> BordersRects = new ArrayList<Rectangle>();
+    ArrayList<Rectangle> BordersRectsFlipped = new ArrayList<Rectangle>();
     ArrayList<Rectangle> PickUpRects = new ArrayList<Rectangle>();
     ArrayList<Object3D> PickUps = new ArrayList<Object3D>();
     ArrayList<Light> PickUpLights = new ArrayList<Light>();
@@ -195,7 +196,13 @@ public class Maze extends Object3D
             }
         }
         BordersRects = GetBorders();
-
+        for (int i = 0; i < BordersRects.size(); i++)
+        {            
+            Point p = new Point(BordersRects.get(i).Location);
+            p.Y *= -1;
+            p.Y += BordersRects.get(BordersRects.size() - 1).Location.Y;
+            BordersRectsFlipped.add(new Rectangle(Color.White, p, new Size(15, 15)));
+        }
         Point ps = GetCenterPoint(Start);
         Point pe = GetCenterPoint(End);
         StartLight = new Light(new Vertex(ps.X, 1.5, ps.Y), new Point(1, 0.75), Color.Red);
