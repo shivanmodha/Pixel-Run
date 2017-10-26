@@ -28,7 +28,7 @@ public class Program
     static boolean              CAMERA_FREE_FLOATING = false;
     static boolean              RENDER_LIGHTS = true;
     static boolean              FULLSCREEN = true;
-    static boolean              STATS = true;
+    static boolean              STATS = false;
     
     static CSV[]                LEVEL_CSV = new CSV[]
     {
@@ -60,7 +60,7 @@ public class Program
     static Audio                SOUND_MENU = new Audio("sounds/menu.wav", 0, 0);
     static Audio                SOUND_GAME = new Audio("sounds/game.wav", 0, 0);
 
-    static FillMode             FILLMODE = FillMode.Wireframe;    
+    static FillMode             FILLMODE = FillMode.Solid;    
 
     static Font                 FONT_BUTTON = new Font("Century Gothic", Font.PLAIN, 30);
     static Font                 FONT_TITLE = new Font("Bradley Hand ITC", Font.PLAIN, 125);
@@ -834,8 +834,14 @@ public class Program
         }
         if (STATS)
         {
-            Graphics.DrawString(wnd.FPS + "", Color.White, new Point(0, 0), new Font("Courier New", Font.PLAIN, 15));
-            Graphics.DrawString(Graphics.D3D_GetVertexCount() + "", Color.White, new Point(0, 20), new Font("Courier New", Font.PLAIN, 15));
+            double mag = Math.sqrt(Math.pow(wnd.Camera.Location.X - slender.Location.X, 2) + Math.pow(wnd.Camera.Location.Y - slender.Location.Y, 2) + Math.pow(wnd.Camera.Location.Z - slender.Location.Z, 2));
+            Graphics.DrawString("fps      : " + wnd.FPS + "", Color.White, new Point(0, 0), new Font("Courier New", Font.PLAIN, 15));
+            Graphics.DrawString("vertices : " + Graphics.D3D_GetVertexCount() + "", Color.White, new Point(0, 20), new Font("Courier New", Font.PLAIN, 15));
+            Graphics.DrawString("stamina  : " + sprintTimer + "", Color.White, new Point(0, 40), new Font("Courier New", Font.PLAIN, 15));
+            Graphics.DrawString("health   : " + health + "", Color.White, new Point(0, 60), new Font("Courier New", Font.PLAIN, 15));
+            Graphics.DrawString("coins    : " + coins + "", Color.White, new Point(0, 80), new Font("Courier New", Font.PLAIN, 15));
+            Graphics.DrawString("enemMag  : " + mag + "", Color.White, new Point(0, 100), new Font("Courier New", Font.PLAIN, 15));
+            Graphics.DrawString("player   : " + wnd.Camera.Location + "", Color.White, new Point(0, 120), new Font("Courier New", Font.PLAIN, 15));
         }
     }
 }
