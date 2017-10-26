@@ -27,7 +27,7 @@ public class Program
     static boolean              AUTOMATICRENDER = false;
     static boolean              CAMERA_FREE_FLOATING = false;
     static boolean              RENDER_LIGHTS = true;
-    static boolean              FULLSCREEN = false;
+    static boolean              FULLSCREEN = true;
     static boolean              STATS = false;
     
     static CSV[]                LEVEL_CSV = new CSV[]
@@ -426,6 +426,7 @@ public class Program
         }
         else if (gameMode == 0)
         {
+            PlayerLocation = maze.GetPointFromLocation(wnd.Camera.Location).multiply(new Point(15, 15)).add(new Point(2, 2));
             double speed = 0.01;
             if (wnd.Keys[KeyEvent.VK_SHIFT])
             {
@@ -447,7 +448,6 @@ public class Program
             {
                 if (!wnd.Camera.FreeFloating)
                 {
-                    PlayerLocation = maze.GetPointFromLocation(wnd.Camera.Location).multiply(new Point(15, 15)).add(new Point(2, 2));
                     if (!Intersects(wnd.Camera.GetForwardPoint(speed), new Size(10, 10)))
                     {
                         wnd.Camera.Forward(speed);
