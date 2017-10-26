@@ -28,7 +28,7 @@ public class Program
     static boolean              CAMERA_FREE_FLOATING = false;
     static boolean              RENDER_LIGHTS = true;
     static boolean              FULLSCREEN = true;
-    static boolean              STATS = false;
+    static boolean              STATS = true;
     
     static CSV[]                LEVEL_CSV = new CSV[]
     {
@@ -60,7 +60,7 @@ public class Program
     static Audio                SOUND_MENU = new Audio("sounds/menu.wav", 0, 0);
     static Audio                SOUND_GAME = new Audio("sounds/game.wav", 0, 0);
 
-    static FillMode             FILLMODE = FillMode.Solid;    
+    static FillMode             FILLMODE = FillMode.Wireframe;    
 
     static Font                 FONT_BUTTON = new Font("Century Gothic", Font.PLAIN, 30);
     static Font                 FONT_TITLE = new Font("Bradley Hand ITC", Font.PLAIN, 125);
@@ -256,7 +256,7 @@ public class Program
             {
                 coinAdded = false;
             }
-            if (health < 0)
+            if (health <= 0)
             {
                 health = 0;
                 gameMode = -1;
@@ -716,7 +716,7 @@ public class Program
         if (gameMode == -1)
         {
             Graphics.DrawString("You Lost!", Color.IndianRed, new Point(wnd.Size.Width / 10, wnd.Size.Height / 4), FONT_TITLE);
-            Graphics.DrawString("< press escape to return to main >", Color.SlateGray, new Point(wnd.Size.Width / 10, (wnd.Size.Height / 2) - 100), FONT_HUD);
+            Graphics.DrawString("< press escape to return to main >", Color.SlateGray, new Point(wnd.Size.Width / 10, (wnd.Size.Height / 2) - 50), FONT_HUD);
         }
         else if (gameMode == 0)
         {
@@ -748,12 +748,25 @@ public class Program
             Graphics.DrawString(health + "", Color.White, new Point(wnd.Size.Width - rectSize, wnd.Size.Height - 90), FONT_HUD);
             if (showMap)
             {
+                Point PlayerP = new Point(PlayerLocation);
+                PlayerP.Y *= -1;
+                PlayerP.Y += maze.file.Size.Height * 15;                
+                PlayerP.X += (wnd.Size.Width / 2) - ((maze.file.Size.Width * 15) / 2);
+                PlayerP.Y += (wnd.Size.Height / 2) - ((maze.file.Size.Height * 15) / 2);
+                PlayerP.Y -= 10;
+                               
                 for (int i = 0; i < maze.BordersRects.size(); i++)
                 {
                     Point p = new Point(maze.BordersRectsFlipped.get(i).Location);
                     p.X += (wnd.Size.Width / 2) - ((maze.file.Size.Width * 15) / 2);
                     p.Y += (wnd.Size.Height / 2) - ((maze.file.Size.Height * 15) / 2);
-                    Graphics.FillRectangle(new Color(Color.White, 100), p, new Size(15, 15));
+                    
+                    double mag = Math.sqrt(Math.pow(PlayerP.X - p.X, 2) + Math.pow(PlayerP.Y - p.Y, 2));
+                    
+                    if (mag < 150)
+                    {
+                        Graphics.FillRectangle(new Color(Color.White, 100), p, new Size(15, 15));
+                    }
                 }
                 Point p = new Point(maze.StartRec.Location);
                 p.Y *= -1;
@@ -771,13 +784,7 @@ public class Program
                 p.Y -= 15;
                 Graphics.FillRectangle(Color.Green, p, new Size(15, 15));
 
-                p = new Point(PlayerLocation);
-                p.Y *= -1;
-                p.Y += maze.file.Size.Height * 15;                
-                p.X += (wnd.Size.Width / 2) - ((maze.file.Size.Width * 15) / 2);
-                p.Y += (wnd.Size.Height / 2) - ((maze.file.Size.Height * 15) / 2);
-                p.Y -= 10;
-                Graphics.FillEllipse(Color.Yellow, p, new Size(10, 10));
+                Graphics.FillEllipse(Color.Yellow, PlayerP, new Size(10, 10));
             }
         }
         else if (gameMode == 5)
